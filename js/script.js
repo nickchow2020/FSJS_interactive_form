@@ -59,8 +59,9 @@ window.onload = ()=>{
         if(changeValue === "js puns"){
          for(let i =0;i < colorOptions.length;i++){
              if(i < 3){
+                colorOptions[3].removeAttribute("selected");
                 colorOptions[i].style.display= "";
-                colorOptions[0].setAttribute("selected","");
+                colorOptions[0].setAttribute("selected",true);
              }else{
                 colorOptions[i].style.display= "none";
              }
@@ -68,8 +69,9 @@ window.onload = ()=>{
         }else if(changeValue === "heart js"){
             for(let i =0;i < colorOptions.length;i++){
                 if(i < 6 && i > 2){
+                    colorOptions[0].removeAttribute("selected");
                    colorOptions[i].style.display= "";
-                   colorOptions[3].setAttribute("selected","");
+                   colorOptions[3].setAttribute("selected",true);
                 }else{
                    colorOptions[i].style.display= "none";
                 }
