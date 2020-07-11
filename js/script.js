@@ -11,6 +11,10 @@ window.onload = ()=>{
     const firstColorOption = colorSelect.firstElementChild;//select the first option under color select.
     const activitiesField = document.querySelector(".activities");
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const paymentCredit = document.getElementById("credit-card");
+    const paypal = document.getElementById("paypal");
+    const bitcoin = document.getElementById("bitcoin");
+    const paymentMethod = document.getElementById("payment");
 
 
 
@@ -145,6 +149,39 @@ window.onload = ()=>{
                   }
             }
     })
+
+    /**
+     * Hide Paypal Payment and Bitcoin Payment
+     */
+    paypal.style.display = "none";
+    bitcoin.style.display = "none";
+
+    /**
+     * hide "select payment method"
+     */
+    const firstOption = paymentMethod.firstElementChild;
+    firstOption.style.display = "none";
+    /**
+     * Eventhandler with payment method;
+     */
+
+    paymentMethod.addEventListener("change",(e)=>{
+        const paymentValue = e.target.value;
+        if(paymentValue === "credit card"){
+            paymentCredit.style.display = "block";
+            paypal.style.display = "none";
+            bitcoin.style.display = "none";
+        }else if(paymentValue === "paypal"){
+            paymentCredit.style.display = "none";
+            bitcoin.style.display = "none";
+            paypal.style.display = "block";
+        }else{
+            paymentCredit.style.display = "none";
+            bitcoin.style.display = "block";
+            paypal.style.display = "none";
+        }
+    })
+
 
 
 
