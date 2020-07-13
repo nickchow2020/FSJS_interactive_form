@@ -21,7 +21,6 @@ window.onload = ()=>{
     const bitcoin = document.getElementById("bitcoin");
     const paymentMethod = document.getElementById("payment");
     const form = document.querySelector("form");
-    const fieldset = document.querySelector("fieldset");
 
 
 
@@ -160,6 +159,83 @@ window.onload = ()=>{
         }
     }
 
+   /**Funtions:
+     * gong to validating all the form input value call function "insertError" and function "validateCheckbox"
+     * this function call to making sure if the input is having correct format and value*/
+    function validateWholeForm(remainder){
+        const correctName = document.querySelector(".error-name");
+        const nameParent = document.getElementById("nameWrap");
+        if(correctName){
+            nameParent.removeChild(correctName);
+        }
+    insertError(remainder);
+    validateCheckbox(activitiesField);
+}
+
+/** Function:
+ *  going to insert the required error message when the input value is missing
+ *  argument "remainder" refer to the input that is remain after select paypal and bitcoin
+ *  add required message*/
+function insertError(remainder){
+    const allTextInput = document.querySelectorAll(".inputText")
+    for(let i = 0; i < (allTextInput.length) - remainder; i ++){
+        if(allTextInput[i].value === ""){
+            const inputParent = allTextInput[i].parentNode;
+            const requires = inputParent.querySelector(".required");
+            const required = `<span class="required">* required</span>`;
+            if(requires){
+                inputParent.removeChild(requires);
+            }
+            allTextInput[i].style.border = "solid red 2px";
+            allTextInput[i].insertAdjacentHTML("beforebegin",required);
+        }
+    }
+}
+/**Function:
+ * check the activities section's checkbox is being check
+ * if the check is missing add error message*/
+function validateCheckbox(arr){
+    window.check = [];
+    for(let i = 0; i < checkboxes.length; i ++){
+        if(checkboxes[i].checked){
+            check.push(checkboxes[i])
+        }
+    }
+    if(check.length === 0){
+        arr.classList.add("activities-error")
+    }else{
+        arr.classList.remove("activities-error")
+    }
+}
+
+    /**
+     * Validating Function for each Input*/
+    function validateName(arr){
+        const nameRegExp = /^[a-zA-Z]+\s[a-zA-z]+$/;
+        return nameRegExp.test(arr);
+    }
+
+
+    function validateEmail(arr){
+        const emailRegExp = /^[^@]+@[^@.]+\.[a-zA-Z]+$/;
+        return emailRegExp.test(arr);
+    }
+
+    function validateCardNumber(arr){
+        const numberRegExp = /^\d{16}$/;
+        return numberRegExp.test(arr);
+    }
+
+    function validateZip(arr){
+        const numberRegExp = /^\d{5}$/;
+        return numberRegExp.test(arr);
+    }
+
+    function validateCvv(arr){
+        const numberRegExp = /^\d{3}$/;
+        return numberRegExp.test(arr);
+    }
+
 
 
     initColorSelectValue(colorSelect); // call function initColorSelectValue
@@ -226,7 +302,7 @@ window.onload = ()=>{
         enableConflictingActivites(checkboxes,inputTarget);//call enableConflictingActivites funcion
         }
 
-        validateCheckbox(activitiesField);
+        validateCheckbox(activitiesField); //Call validateCheckbox function
     })
 
     /**
@@ -240,8 +316,14 @@ window.onload = ()=>{
      */
     const firstOption = paymentMethod.firstElementChild;
     firstOption.style.display = "none";
+    
+    /** select credit option and set credit card payment is default*/
+    const creditOption = firstOption.nextElementSibling;
+    creditOption.setAttribute("selected",true);
+
     /**
      * Eventhandler with payment method;
+     * tohide paypal and bitcoin;
      */
     paymentMethod.addEventListener("change",(e)=>{
         const paymentValue = e.target.value;
@@ -261,160 +343,116 @@ window.onload = ()=>{
     })
 
     /**
-     * Validating Function for each Input*/
-    function validateName(arr){
-        const nameRegExp = /^[a-zA-Z]+\s[a-zA-z]+$/;
-        return nameRegExp.test(arr);
-    }
-
-
-    function validateEmail(arr){
-        const emailRegExp = /^[^@]+@[^@.]+\.[a-zA-Z]+$/;
-        return emailRegExp.test(arr);
-    }
-
-    function validateCardNumber(arr){
-        const numberRegExp = /^\d{16}$/;
-        return numberRegExp.test(arr);
-    }
-
-    function validateZip(arr){
-        const numberRegExp = /^\d{5}$/;
-        return numberRegExp.test(arr);
-    }
-
-    function validateCvv(arr){
-        const numberRegExp = /^\d{3}$/;
-        return numberRegExp.test(arr);
-    }
-
-
+     * name Input validation event handler to check the user input
+    */
     nameInput.addEventListener("blur",(e)=>{
-        const inputValue = e.target.value;
-        const correntInput = `<span class="correct-name">&#10003;&nbspgood to go</span>`;
-        const errorInput = `<span class="error-name">&#x2718;&nbspname should contain [first last]</span>`;
-        const spanParent = e.target.parentNode;
-        const previousCorrectSpan = spanParent.querySelector(".correct-name");
-        const previousErrorSpan = spanParent.querySelector(".error-name");
-        const required = spanParent.querySelector(".required")
-        if(validateName(inputValue)){   
-            validateMessage(nameInput,previousCorrectSpan,spanParent,previousErrorSpan,correntInput,required);
+        const inputValue = e.target.value; // target on input value
+        const correntInput = `<span class="correct-name true">&#10003;&nbspgood to go</span>`;// correct Message
+        const errorInput = `<span class="error-name">&#x2718;&nbspname should contain [first last]</span>`;// error message
+        const spanParent = e.target.parentNode; //name input's parent
+        const previousCorrectSpan = spanParent.querySelector(".correct-name");//select correct message sapn
+        const previousErrorSpan = spanParent.querySelector(".error-name");//select error message span
+        const required = spanParent.querySelector(".required")//select required message span
+        if(validateName(inputValue)){   // if user input value is true
+            validateMessage(nameInput,previousCorrectSpan,spanParent,previousErrorSpan,correntInput,required);// call validateMessage function and input a correct message
         }else{
-            validateMessage(nameInput,previousCorrectSpan,spanParent,previousErrorSpan,errorInput,required)
+            validateMessage(nameInput,previousCorrectSpan,spanParent,previousErrorSpan,errorInput,required)// call validateMessage function and input a error message
         }
     })
 
+    /**
+     * email Input event listener to check the user email input
+     */
     emailInput.addEventListener("blur",(e)=>{
-        const inputValue = e.target.value;
-        const correntInput = `<span class="correct-email">&#10003;&nbspgood to go</span>`;
-        const errorInput = `<span class="error-email">&#x2718;&nbspemail should format as [..@.com or ..@.something]</span>`;
-        const spanParent = e.target.parentNode;
-        const previousCorrectSpan = spanParent.querySelector(".correct-email");
-        const previousErrorSpan = spanParent.querySelector(".error-email");
-        const required = spanParent.querySelector(".required")
-        if(validateEmail(inputValue)){   
-            validateMessage(emailInput,previousCorrectSpan,spanParent,previousErrorSpan,correntInput,required)
+        const inputValue = e.target.value;// target on input value
+        const correntInput = `<span class="correct-email true">&#10003;&nbspgood to go</span>`;// correct Message
+        const errorInput = `<span class="error-email">&#x2718;&nbspemail should format as [..@.com or ..@.something]</span>`;// error message
+        const spanParent = e.target.parentNode;//email input's parent
+        const previousCorrectSpan = spanParent.querySelector(".correct-email");//select correct message sapn
+        const previousErrorSpan = spanParent.querySelector(".error-email");//select error message span
+        const required = spanParent.querySelector(".required")//select required message span
+        if(validateEmail(inputValue)){   // if user input value is true
+            validateMessage(emailInput,previousCorrectSpan,spanParent,previousErrorSpan,correntInput,required)// call validateMessage function and input a correct message
         }else{
-            validateMessage(emailInput,previousCorrectSpan,spanParent,previousErrorSpan,errorInput,required)
+            validateMessage(emailInput,previousCorrectSpan,spanParent,previousErrorSpan,errorInput,required)// call validateMessage function and input a error message
         }
     })
 
-
+    /**
+     * creditCard Input event listener to check the user email input
+     */
     creditCardInput.addEventListener("blur",(e)=>{
-        const inputValue = e.target.value;
-        const correntInput = `<span class="correct-num">&#10003;&nbspgood to go</span>`;
-        const errorInput = `<span class="error-num">&#x2718;&nbspshould has 16 digit number</span>`;
-        const spanParent = e.target.parentNode;
-        const previousCorrectSpan = spanParent.querySelector(".correct-num");
-        const previousErrorSpan = spanParent.querySelector(".error-num");
-        const required = spanParent.querySelector(".required")
-        if(validateCardNumber(inputValue)){   
-            validateMessage(creditCardInput,previousCorrectSpan,spanParent,previousErrorSpan,correntInput,required)
+        const inputValue = e.target.value;// target on input value
+        const correntInput = `<span class="correct-num true">&#10003;&nbspgood to go</span>`;// correct Message
+        const errorInput = `<span class="error-num">&#x2718;&nbspshould has 16 digit number</span>`;// error message
+        const spanParent = e.target.parentNode;//creditCard input's parent
+        const previousCorrectSpan = spanParent.querySelector(".correct-num");//select correct message sapn
+        const previousErrorSpan = spanParent.querySelector(".error-num");//select error message span
+        const required = spanParent.querySelector(".required")//select required message span
+        if(validateCardNumber(inputValue)){   // if user input value is true 
+            validateMessage(creditCardInput,previousCorrectSpan,spanParent,previousErrorSpan,correntInput,required)// call validateMessage function and input a correct message
         }else{
-            validateMessage(creditCardInput,previousCorrectSpan,spanParent,previousErrorSpan,errorInput,required)
+            validateMessage(creditCardInput,previousCorrectSpan,spanParent,previousErrorSpan,errorInput,required)// call validateMessage function and input a error message
         }
     })
-
+    /**
+     * creditCard zipcode Input event listener to check the user email input
+     */
     zipInput.addEventListener("blur",(e)=>{
-        const inputValue = e.target.value;
-        const correntInput = `<span class="correct-zip">&#10003;&nbspgood to go</span>`;
-        const errorInput = `<span class="error-zip">&#x2718;&nbsp5 digit zipcode</span>`;
-        const spanParent = e.target.parentNode;
-        const previousCorrectSpan = spanParent.querySelector(".correct-zip");
-        const previousErrorSpan = spanParent.querySelector(".error-zip");
-        const required = spanParent.querySelector(".required")
-        if(validateZip(inputValue)){   
-            validateMessage(zipInput,previousCorrectSpan,spanParent,previousErrorSpan,correntInput,required)
+        const inputValue = e.target.value;// target on input value
+        const correntInput = `<span class="correct-zip true">&#10003;&nbspgood to go</span>`;// correct Message
+        const errorInput = `<span class="error-zip">&#x2718;&nbsp5 digit zipcode</span>`;// error message
+        const spanParent = e.target.parentNode;//creditCard zipcode input's parent
+        const previousCorrectSpan = spanParent.querySelector(".correct-zip");;//select correct message sapn
+        const previousErrorSpan = spanParent.querySelector(".error-zip");//select error message span
+        const required = spanParent.querySelector(".required")//select required message span
+        if(validateZip(inputValue)){   // if user input value is true 
+            validateMessage(zipInput,previousCorrectSpan,spanParent,previousErrorSpan,correntInput,required)// call validateMessage function and input a correct message
         }else{
-            validateMessage(zipInput,previousCorrectSpan,spanParent,previousErrorSpan,errorInput,required)
+            validateMessage(zipInput,previousCorrectSpan,spanParent,previousErrorSpan,errorInput,required)// call validateMessage function and input a error message
         }
     })
-
+    /**
+     * creditCard cvv Input event listener to check the user email input
+     */
     cvvInput.addEventListener("blur",(e)=>{
-        const inputValue = e.target.value;
-        const correntInput = `<span class="correct-cvv">&#10003;&nbspgood to go</span>`;
-        const errorInput = `<span class="error-cvv">&#x2718;&nbsp3 digit cvv</span>`;
-        const spanParent = e.target.parentNode;
-        const previousCorrectSpan = spanParent.querySelector(".correct-cvv");
-        const previousErrorSpan = spanParent.querySelector(".error-cvv");
-        const required = spanParent.querySelector(".required")
-        if(validateCvv(inputValue)){   
-            validateMessage(cvvInput,previousCorrectSpan,spanParent,previousErrorSpan,correntInput,required)
+        const inputValue = e.target.value;// target on input value
+        const correntInput = `<span class="correct-cvv true">&#10003;&nbspgood to go</span>`;// correct Message
+        const errorInput = `<span class="error-cvv">&#x2718;&nbsp3 digit cvv</span>`;// error message
+        const spanParent = e.target.parentNode;//creditCard zipcode input's parent
+        const previousCorrectSpan = spanParent.querySelector(".correct-cvv");//select correct message sapn
+        const previousErrorSpan = spanParent.querySelector(".error-cvv");//select error message span
+        const required = spanParent.querySelector(".required")//select required message span
+        if(validateCvv(inputValue)){   // if user input value is true 
+            validateMessage(cvvInput,previousCorrectSpan,spanParent,previousErrorSpan,correntInput,required)// call validateMessage function and input a correct message
         }else{
-            validateMessage(cvvInput,previousCorrectSpan,spanParent,previousErrorSpan,errorInput,required)
+            validateMessage(cvvInput,previousCorrectSpan,spanParent,previousErrorSpan,errorInput,required)// call validateMessage function and input a error message
         }
     })
 
 
+    /**
+     * form submit event's when click submit btn.
+     */
     form.addEventListener("submit",(e)=>{
-        e.preventDefault();
-        validateWholeForm();
+        if(paypal.style.display === "none" && bitcoin.style.display === "none"){
+            validateWholeForm(0); // call validateWholeFrom to check each input value;
+            const correntInputs = document.querySelectorAll(".true");// collect class true;
+            if(correntInputs.length !== 5 || check.length === 0){
+                e.preventDefault();// if statement to check if all 5 text input is fill in valid value,if yes submit the form,if not stop the form submmission
+            }
+        }else if(paymentCredit.style.display === "none"){
+            validateWholeForm(3);//if statement to check if all 2 text input(without credit card payment section) is fill in valid value,if yes submit the form,if not stop the form submmission
+            const correntInputs = document.querySelectorAll(".true");// collect class true;
+            if(correntInputs.length !== 2 || check.length === 0){
+                e.preventDefault();
+            }
+        }else{
+            console.log("Say Hi to reviewer")
+        }
     })
 
-
-    function validateWholeForm(){
-        if(nameInput.value === "" || emailInput === "" || creditCardInput === "" || zipInput === "" || cvvInput === ""){
-            const correctName = document.querySelector(".error-name");
-            const nameParent = document.getElementById("nameWrap");
-            if(correctName){
-                nameParent.removeChild(correctName);
-            }
-            
-            insertError(nameInput);
-            insertError(emailInput);
-            insertError(creditCardInput);
-            insertError(zipInput);
-            insertError(cvvInput);
-
-            validateCheckbox(activitiesField);
-        }
-        
-    }
-
-    function insertError(arr){
-        const inputParent = arr.parentNode;
-        const requires = inputParent.querySelector(".required");
-        if(requires){
-            inputParent.removeChild(requires);
-        }
-        const required = `<span class="required">* required</span>`;
-        arr.style.border = "solid red 2px";
-        arr.insertAdjacentHTML("beforebegin",required);
-    }
-
-    function validateCheckbox(arr){
-        let check = [];
-        for(let i = 0; i < checkboxes.length; i ++){
-            if(checkboxes[i].checked){
-                check.push(checkboxes[i])
-            }
-        }
-        if(check.length === 0){
-            arr.classList.add("activities-error")
-        }else{
-            arr.classList.remove("activities-error")
-        }
-    }
+ 
 
 
 
