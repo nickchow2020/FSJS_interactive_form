@@ -214,3 +214,41 @@ option {
 		clear: both;
 	}
 }
+
+/* ================================= 
+	Error Message display
+==================================== */
+.error-name,
+.error-email,
+.error-num,
+.error-zip,
+.error-cvv,
+.required{
+	background-color: rgba(255,0,0,.6);
+	color: white;
+	display: inline-block;
+	width: 100%;
+	text-align: right;
+	padding-right: 2rem;
+}
+.correct-name,
+.correct-email,
+.correct-num,
+.correct-zip,
+.correct-cvv{
+	background-color: rgba(50,205,50,.5);
+	color: white;
+	display: inline-block;
+	width: 100%;
+	text-align: right;
+	padding-right: 2rem;
+}
+
+.activities{
+	padding: .5rem;
+}
+
+.activities-error{
+	color: red;
+	border: solid red 2px;
+}
