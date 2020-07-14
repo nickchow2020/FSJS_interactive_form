@@ -370,7 +370,7 @@ function validateCheckbox(arr){
     creditCardInput.addEventListener("input",(e)=>{
         const inputValue = e.target.value;// target on input value
         const correntInput = `<span class="correct-num true">&#10003;&nbspgood to go</span>`;// correct Message
-        const errorInput = `<span class="error-num">&#x2718;&nbspshould has 13 or 16 digit number</span>`;// error message
+        const errorInput = `<span class="error-num">&#x2718;&nbspshould has 13 to 16 digit number</span>`;// error message
         const spanParent = e.target.parentNode;//creditCard input's parent
         const previousCorrectSpan = spanParent.querySelector(".correct-num");//select correct message sapn
         const previousErrorSpan = spanParent.querySelector(".error-num");//select error message span
