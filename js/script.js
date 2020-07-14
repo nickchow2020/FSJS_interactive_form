@@ -210,7 +210,7 @@ function validateCheckbox(arr){
     }
 
     function validateCardNumber(arr){
-        const numberRegExp = /^\d[0-9]{12}(?:[0-9]{3})?$/;
+        const numberRegExp = /^\d{13,16}$/;
         return numberRegExp.test(arr);
     }
 
