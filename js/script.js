@@ -21,6 +21,7 @@ window.onload = ()=>{
     const bitcoin = document.getElementById("bitcoin");
     const paymentMethod = document.getElementById("payment");
     const form = document.querySelector("form");
+    const colorDropDown = document.getElementById("colors-js-puns");
 
 
 
@@ -60,19 +61,6 @@ window.onload = ()=>{
         optionInit.classList.add("initOption")
         optionInit.setAttribute("selected",true);
     }
-
-
-
-    /** function that:
-     * going to remove the option that display "Please select a T-shirt theme"
-     */
-    function removeiniOption(){
-        const initOption = colorSelect.querySelector(".initOption")
-        if(initOption){
-            colorSelect.removeChild(initOption);
-        }
-    }
-
 
     /** function that:
      * add the total cost headline as h3 tags and hide it
@@ -222,7 +210,7 @@ function validateCheckbox(arr){
     }
 
     function validateCardNumber(arr){
-        const numberRegExp = /^\d{16}$/;
+        const numberRegExp = /^\d[0-9]{12}(?:[0-9]{3})?$/;
         return numberRegExp.test(arr);
     }
 
@@ -240,16 +228,16 @@ function validateCheckbox(arr){
 
     initColorSelectValue(colorSelect); // call function initColorSelectValue
     themeSelectFirstOption.style.display = "none";// hide "select theme" on color theme.
+    colorDropDown.style.display = "none"; // hide color dropdowm menu
 
     /**
      * Event handler that is going to handle the T-shirt dropDown menu*/
     themeSelect.addEventListener("change",(e)=>{
         const changeValue = e.target.value;
-        removeiniOption();
+        colorDropDown.style.display = "block"; // show color dropdown menu;
         if(changeValue === "js puns"){ //when user select color theme "js puns"
          for(let i =0;i < colorOptions.length;i++){
-             if(i < 3){// show the first third options
-                colorOptions[3].removeAttribute("selected"); //remove the selected attributes from  user select "heart js"
+             if(i < 4 && i > 0){// show the first third options
                 colorOptions[i].style.display= "";// show index 0-2 options
                 colorOptions[0].setAttribute("selected",true);//add attribute "selected" to 0 index option
              }else{
@@ -258,10 +246,8 @@ function validateCheckbox(arr){
          }
         }else if(changeValue === "heart js"){ // when user select color theme "heart js"
             for(let i =0;i < colorOptions.length;i++){
-                if(i < 6 && i > 2){//show last three options
-                    colorOptions[0].removeAttribute("selected");//remove the selected attributes from  user select "js puns"
+                if(i < 7 && i > 3){//show last three options
                    colorOptions[i].style.display= "";//show 3-5 indexes options
-                   colorOptions[3].setAttribute("selected",true);// add attribute "selected" to 3 index option
                 }else{
                    colorOptions[i].style.display= "none"; // hide 0-2 index options
                 }
@@ -345,7 +331,7 @@ function validateCheckbox(arr){
     /**
      * name Input validation event handler to check the user input
     */
-    nameInput.addEventListener("blur",(e)=>{
+    nameInput.addEventListener("input",(e)=>{
         const inputValue = e.target.value; // target on input value
         const correntInput = `<span class="correct-name true">&#10003;&nbspgood to go</span>`;// correct Message
         const errorInput = `<span class="error-name">&#x2718;&nbspname should contain [first last]</span>`;// error message
@@ -363,7 +349,7 @@ function validateCheckbox(arr){
     /**
      * email Input event listener to check the user email input
      */
-    emailInput.addEventListener("blur",(e)=>{
+    emailInput.addEventListener("input",(e)=>{
         const inputValue = e.target.value;// target on input value
         const correntInput = `<span class="correct-email true">&#10003;&nbspgood to go</span>`;// correct Message
         const errorInput = `<span class="error-email">&#x2718;&nbspemail should format as [..@.com or ..@.something]</span>`;// error message
@@ -381,10 +367,10 @@ function validateCheckbox(arr){
     /**
      * creditCard Input event listener to check the user email input
      */
-    creditCardInput.addEventListener("blur",(e)=>{
+    creditCardInput.addEventListener("input",(e)=>{
         const inputValue = e.target.value;// target on input value
         const correntInput = `<span class="correct-num true">&#10003;&nbspgood to go</span>`;// correct Message
-        const errorInput = `<span class="error-num">&#x2718;&nbspshould has 16 digit number</span>`;// error message
+        const errorInput = `<span class="error-num">&#x2718;&nbspshould has 13 or 16 digit number</span>`;// error message
         const spanParent = e.target.parentNode;//creditCard input's parent
         const previousCorrectSpan = spanParent.querySelector(".correct-num");//select correct message sapn
         const previousErrorSpan = spanParent.querySelector(".error-num");//select error message span
@@ -398,7 +384,7 @@ function validateCheckbox(arr){
     /**
      * creditCard zipcode Input event listener to check the user email input
      */
-    zipInput.addEventListener("blur",(e)=>{
+    zipInput.addEventListener("input",(e)=>{
         const inputValue = e.target.value;// target on input value
         const correntInput = `<span class="correct-zip true">&#10003;&nbspgood to go</span>`;// correct Message
         const errorInput = `<span class="error-zip">&#x2718;&nbsp5 digit zipcode</span>`;// error message
@@ -415,7 +401,7 @@ function validateCheckbox(arr){
     /**
      * creditCard cvv Input event listener to check the user email input
      */
-    cvvInput.addEventListener("blur",(e)=>{
+    cvvInput.addEventListener("input",(e)=>{
         const inputValue = e.target.value;// target on input value
         const correntInput = `<span class="correct-cvv true">&#10003;&nbspgood to go</span>`;// correct Message
         const errorInput = `<span class="error-cvv">&#x2718;&nbsp3 digit cvv</span>`;// error message
