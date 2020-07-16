@@ -14,14 +14,14 @@ window.onload = ()=>{
     const colorSelect = document.getElementById("color");//target on theme color option element
     const colorOptions = colorSelect.children;// select all color select element's children
     const firstColorOption = colorSelect.firstElementChild;//select the first option under color select.
-    const activitiesField = document.querySelector(".activities");
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    const paymentCredit = document.getElementById("credit-card");
-    const paypal = document.getElementById("paypal");
-    const bitcoin = document.getElementById("bitcoin");
-    const paymentMethod = document.getElementById("payment");
-    const form = document.querySelector("form");
-    const colorDropDown = document.getElementById("colors-js-puns");
+    const activitiesField = document.querySelector(".activities"); // select activities field
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');// target all checkbox
+    const paymentCredit = document.getElementById("credit-card"); //select credit-card area
+    const paypal = document.getElementById("paypal");// select paypal
+    const bitcoin = document.getElementById("bitcoin");// select bitcoion
+    const paymentMethod = document.getElementById("payment");// select payment
+    const form = document.querySelector("form");// select form
+    const colorDropDown = document.getElementById("colors-js-puns");// select color dromDown menu.
 
 
 
@@ -239,15 +239,17 @@ function validateCheckbox(arr){
          for(let i =0;i < colorOptions.length;i++){
              if(i < 4 && i > 0){// show the first third options
                 colorOptions[i].style.display= "";// show index 0-2 options
-                colorOptions[0].setAttribute("selected",true);//add attribute "selected" to 0 index option
+                    colorSelect.selectedIndex = 0; // show please select a t-shirt theme each time with user click on new theme
              }else{
                 colorOptions[i].style.display= "none";// hide 3-5 indexes options
              }
          }
         }else if(changeValue === "heart js"){ // when user select color theme "heart js"
+ 
             for(let i =0;i < colorOptions.length;i++){
                 if(i < 7 && i > 3){//show last three options
                    colorOptions[i].style.display= "";//show 3-5 indexes options
+                   colorSelect.selectedIndex = 0; // show please select a t-shirt theme each time with user click on new theme
                 }else{
                    colorOptions[i].style.display= "none"; // hide 0-2 index options
                 }
